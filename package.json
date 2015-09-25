@@ -1,0 +1,25 @@
+{
+  "name": "sendmyloc",
+  "version": "1.0.0",
+  "description": "",
+  "main": "server.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "node server.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Rub21/sendmyloc.git"
+  },
+  "author": "Ruben Lopez M <ruben@mapbox.com> (http://rub21.github.io/)",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/Rub21/sendmyloc/issues"
+  },
+  "homepage": "https://github.com/Rub21/sendmyloc#readme",
+  "dependencies": {
+    "body-parser": "^1.14.0",
+    "express": "^4.13.3",
+    "hapi": "^10.0.1"
+  }
+}

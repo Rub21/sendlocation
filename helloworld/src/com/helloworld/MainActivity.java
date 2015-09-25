@@ -1,14 +1,42 @@
 package com.helloworld;
 
 import android.app.Activity;
+import android.app.AlertDialog;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.location.Criteria;
 import android.location.Location;
 import android.location.LocationListener;
 import android.location.LocationManager;
 import android.os.Bundle;
+import android.util.Log;
 import android.widget.TextView;
 import android.widget.Toast;
+import java.io.IOException;
+import java.io.UnsupportedEncodingException;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+import org.apache.http.HttpEntity;
+import org.apache.http.HttpResponse;
+import org.apache.http.NameValuePair;
+import org.apache.http.client.ClientProtocolException;
+import org.apache.http.client.HttpClient;
+import org.apache.http.client.entity.UrlEncodedFormEntity;
+import org.apache.http.client.methods.HttpGet;
+import org.apache.http.client.methods.HttpPost;
+import org.apache.http.entity.StringEntity;
+import org.apache.http.impl.client.DefaultHttpClient;
+import org.apache.http.message.BasicHeader;
+import org.apache.http.message.BasicNameValuePair;
+import org.apache.http.params.BasicHttpParams;
+import org.apache.http.params.HttpConnectionParams;
+import org.apache.http.params.HttpParams;
+import org.apache.http.protocol.HTTP;
+import org.apache.http.util.EntityUtils;
+import org.json.JSONException;
+import org.json.JSONObject;
 
 public class MainActivity extends Activity implements LocationListener {
 
@@ -16,6 +44,7 @@ public class MainActivity extends Activity implements LocationListener {
     private TextView longitudeField;
     private LocationManager locationManager;
     private String provider;
+    private Context context;
 
     /**
      * Called when the activity is first created.
@@ -29,7 +58,7 @@ public class MainActivity extends Activity implements LocationListener {
 
         // Get the location manager
         locationManager = (LocationManager) getSystemService(Context.LOCATION_SERVICE);
-    // Define the criteria how to select the locatioin provider -> use
+        // Define the criteria how to select the locatioin provider -> use
         // default
         Criteria criteria = new Criteria();
         provider = locationManager.getBestProvider(criteria, false);
@@ -43,6 +72,8 @@ public class MainActivity extends Activity implements LocationListener {
             latituteField.setText("Location not available");
             longitudeField.setText("Location not available");
         }
+        JSONObject jsonObj = new JSONObject();
+        //
     }
 
     /* Request updates at startup */
@@ -60,30 +91,55 @@ public class MainActivity extends Activity implements LocationListener {
     }
 
     @Override
-    public void onLocationChanged(Location location) {
+    public void onLocationChanged(Location location
+    ) {
         double lat = (double) (location.getLatitude());
         double lng = (double) (location.getLongitude());
         latituteField.setText(String.valueOf(lat));
         longitudeField.setText(String.valueOf(lng));
+        postData(lat, lng);
     }
 
     @Override
-    public void onStatusChanged(String provider, int status, Bundle extras) {
+    public void onStatusChanged(String provider, int status, Bundle extras
+    ) {
         // TODO Auto-generated method stub
 
     }
 
     @Override
-    public void onProviderEnabled(String provider) {
+    public void onProviderEnabled(String provider
+    ) {
         Toast.makeText(this, "Enabled new provider " + provider,
                 Toast.LENGTH_SHORT).show();
 
     }
 
     @Override
-    public void onProviderDisabled(String provider) {
+    public void onProviderDisabled(String provider
+    ) {
         Toast.makeText(this, "Disabled provider " + provider,
                 Toast.LENGTH_SHORT).show();
     }
 
+    public void postData(double lat, double lon) {
+        try {
+            HttpClient client = new DefaultHttpClient();
+            String postURL = "http://54.86.113.107:3000";
+            HttpPost post = new HttpPost(postURL);
+            List<NameValuePair> params = new ArrayList<NameValuePair>();
+            params.add(new BasicNameValuePair("lat", String.valueOf(lat)));
+            params.add(new BasicNameValuePair("lon", String.valueOf(lon)));
+            UrlEncodedFormEntity ent = new UrlEncodedFormEntity(params, HTTP.UTF_8);
+            post.setEntity(ent);
+            HttpResponse responsePOST = client.execute(post);
+            HttpEntity resEntity = responsePOST.getEntity();
+            if (resEntity != null) {
+                Log.i("RESPONSE", EntityUtils.toString(resEntity));
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+
+    }
 }
