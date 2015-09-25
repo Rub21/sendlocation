@@ -13,7 +13,6 @@ app.get('/', function(req, res) {
 	console.log("GET files");
 	res.sendfile(__dirname + '/public');
 });
-
 app.post('/', function(req, res) {
 	console.log(req.body);
 	var data = req.body;
