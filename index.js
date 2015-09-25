@@ -1,18 +1,39 @@
 var express = require("express");
 var bodyParser = require("body-parser");
+var path = require('path');
 var app = express();
+var server = require('http').createServer(app);
+var socket = require('socket.io').listen(server);
 app.use(bodyParser.urlencoded({
-    extended: true
+	extended: true
 }));
+app.use(express.static(path.join(__dirname, 'public')));
+
 app.get('/', function(req, res) {
-    console.log(req.body);
-    //res.sendfile("index.html");
-    res.end("test")
+	console.log("GET files");
+	res.sendfile(__dirname + '/public');
 });
+
 app.post('/', function(req, res) {
-    console.log(req.body);
-    res.end("yes");
+	console.log(req.body);
+	var data = {
+		lat: '-13.156005753095378',
+		lon: '-74.21785628422177'
+	}
+	data.lat = parseFloat(data.lat);
+	data.lon = parseFloat(data.lon);
+
+	socket.emit('location', {
+		done: 'Done',
+		data: data
+	});
+	res.send({
+		status: true
+	});
 });
-app.listen(3000, function() {
-    console.log("Started on PORT 3000");
+socket.on('connection', function(socket) {
+	console.log('socket.io connected');
+});
+server.listen(3000, function() {
+	console.log("Started on PORT 3000");
 })
