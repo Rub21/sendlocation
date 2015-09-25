@@ -14,7 +14,7 @@ new L.Control.Zoom({
 	position: 'topright'
 }).addTo(map);
 var myLayer = L.mapbox.featureLayer().addTo(map);
-//{ lat: '-13.155797329153975', lon: '-74.2178891948596' }
+
 socket.on("location", onReceiveData);
 
 function onReceiveData(obj) {
@@ -26,9 +26,9 @@ function onReceiveData(obj) {
 			"coordinates": [obj.data.lon, obj.data.lat]
 		},
 		"properties": {
-			"title": "Ruben",
+			"title": "User",
 			"icon": {
-				"iconUrl": "https://avatars1.githubusercontent.com/u/1152236?v=3&u=e344ade6ac71291d92e19fabd26f2992b4a1f581&s=140",
+				"iconUrl": "https://dl.dropboxusercontent.com/u/43116811/astronaut15.png",
 				"iconSize": [30, 30],
 				"iconAnchor": [15, 15],
 				"popupAnchor": [0, -15],
