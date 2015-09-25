@@ -16,10 +16,7 @@ app.get('/', function(req, res) {
 
 app.post('/', function(req, res) {
 	console.log(req.body);
-	var data = {
-		lat: '-13.156005753095378',
-		lon: '-74.21785628422177'
-	}
+	var data = req.body;
 	data.lat = parseFloat(data.lat);
 	data.lon = parseFloat(data.lon);
 
