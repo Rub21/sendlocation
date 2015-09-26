@@ -18,15 +18,16 @@ var myLayer = L.mapbox.featureLayer().addTo(map);
 socket.on("location", onReceiveData);
 
 function onReceiveData(obj) {
-	console.log(obj)
-	var geoJson = {
+
+	console.log(obj);
+	var geoJson = [{
 		"type": "Feature",
 		"geometry": {
 			"type": "Point",
 			"coordinates": [obj.data.lon, obj.data.lat]
 		},
 		"properties": {
-			"title": "User",
+			"title": obj.data.username,
 			"icon": {
 				"iconUrl": "https://dl.dropboxusercontent.com/u/43116811/astronaut15.png",
 				"iconSize": [30, 30],
@@ -35,7 +36,8 @@ function onReceiveData(obj) {
 				"className": "dot"
 			}
 		}
-	}
+	}];
+
 	myLayer.on('layeradd', function(e) {
 		var marker = e.layer,
 			feature = marker.feature;

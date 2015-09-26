@@ -4,6 +4,7 @@ var path = require('path');
 var app = express();
 var server = require('http').createServer(app);
 var socket = require('socket.io').listen(server);
+var uuid = require('uuid');
 app.use(bodyParser.urlencoded({
 	extended: true
 }));
@@ -18,6 +19,7 @@ app.post('/', function(req, res) {
 	var data = req.body;
 	data.lat = parseFloat(data.lat);
 	data.lon = parseFloat(data.lon);
+	data.id=uuid.v1();
 
 	socket.emit('location', {
 		done: 'Done',
