@@ -1,8 +1,3 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
 package rub21.main.io;
 
 import android.util.Log;
@@ -24,14 +19,16 @@ import org.apache.http.util.EntityUtils;
  * @author ruben
  */
 public class Server {
-    public void postData(double lat, double lon) {
+
+    public void postData(double lat, double lon, String username) {
         try {
             HttpClient client = new DefaultHttpClient();
-            String postURL = "http://54.86.113.107:3000";
+            String postURL = Config.server;
             HttpPost post = new HttpPost(postURL);
             List<NameValuePair> params = new ArrayList<NameValuePair>();
             params.add(new BasicNameValuePair("lat", String.valueOf(lat)));
             params.add(new BasicNameValuePair("lon", String.valueOf(lon)));
+            params.add(new BasicNameValuePair("username", username));
             UrlEncodedFormEntity ent = new UrlEncodedFormEntity(params, HTTP.UTF_8);
             post.setEntity(ent);
             HttpResponse responsePOST = client.execute(post);
