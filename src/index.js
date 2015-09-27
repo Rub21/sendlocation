@@ -1,6 +1,8 @@
 require('mapbox.js');
-var socket = require('socket.io-client')('http://54.86.113.107:3000');
+var st = require('./settings')
+var socket = require('socket.io-client')(st.host);
 var _ = require('underscore');
+var turf = require('turf');
 
 document.location.hash = '';
 var token = 'pk.eyJ1IjoicnViZW4iLCJhIjoiYlBrdkpRWSJ9.JgDDxJkvDn3us36aGzR6vg';
@@ -19,11 +21,20 @@ var myLayer = L.mapbox.featureLayer().addTo(map);
 
 socket.on("location", onReceiveData);
 
+
 var users = [];
 
 function onReceiveData(obj) {
 
-	console.log(obj);
+
+	var user1 = turf.point([obj.data.lon, obj.data.lat]);
+	user1.properties.icon=st.icon;
+	user1.properties.title=obj.data.username;
+	user1.properties.id=obj.data.id;
+	console.log(user1);
+
+
+
 
 	var user = {
 		"type": "Feature",
@@ -34,29 +45,19 @@ function onReceiveData(obj) {
 		"properties": {
 			//"id": obj.data.id,
 			"title": obj.data.username,
-			"icon": {
-				"iconUrl": "https://dl.dropboxusercontent.com/u/43116811/astronaut15.png",
-				"iconSize": [30, 30],
-				"iconAnchor": [15, 15],
-				"popupAnchor": [0, -15],
-				"className": "dot"
-			}
+
 		}
 	};
-
-
-	val = _.each(users, function(val, key) {
-		if (val.properties.username === user.properties.username) {
+	var flag = false;
+	_.map(users, function(val) {
+		if (val.properties.id === user.properties.id) {
 			val.geometry.coordinates = user.geometry.coordinates;
-			return val;
-		} else {
-			return user;
+			flag = true;
 		}
-
-	})
-
-
-
+	});
+	if (flag) {
+		users.push(user);
+	}
 	myLayer.on('layeradd', function(e) {
 		var marker = e.layer,
 			feature = marker.feature;

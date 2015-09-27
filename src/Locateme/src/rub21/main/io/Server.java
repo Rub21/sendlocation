@@ -29,7 +29,7 @@ public class Server {
             params.add(new BasicNameValuePair("lat", String.valueOf(lat)));
             params.add(new BasicNameValuePair("lon", String.valueOf(lon)));
             params.add(new BasicNameValuePair("username", username));
-             params.add(new BasicNameValuePair("android_id", android_id));
+             params.add(new BasicNameValuePair("id", android_id));
             UrlEncodedFormEntity ent = new UrlEncodedFormEntity(params, HTTP.UTF_8);
             post.setEntity(ent);
             HttpResponse responsePOST = client.execute(post);
