@@ -19,13 +19,21 @@ app.post('/', function(req, res) {
 	data.lat = parseFloat(data.lat);
 	data.lon = parseFloat(data.lon);
 
-	if (data.id !== 'null') socket.emit('location', {
-		done: 'Done',
-		data: data
-	});
-	res.send({
-		status: true
-	});
+	if (data.id) {
+		console.log("corecto id")
+		socket.emit('location', {
+			done: 'Done',
+			data: data
+		});
+		res.send({
+			status: true
+		});
+	} else {
+		res.send({
+			status: false
+		});
+	}
+
 });
 socket.on('connection', function(socket) {
 	console.log('socket.io connected');
