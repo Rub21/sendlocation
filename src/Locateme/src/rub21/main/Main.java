@@ -8,7 +8,6 @@ import android.location.LocationListener;
 import android.location.LocationManager;
 import android.os.Bundle;
 import android.provider.Settings.Secure;
-import android.telephony.TelephonyManager;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.Button;
@@ -24,7 +23,7 @@ public class Main extends Activity implements LocationListener {
     private LocationManager locationManager;
     private String provider;
     private Context context;
-//user
+    //user
     private String username = "User";
     // User name
     private EditText et_Username;
@@ -32,10 +31,7 @@ public class Main extends Activity implements LocationListener {
     private Button bt_SignIn;
     // Message
     private TextView tv_Message;
-
     Server server = new Server();
-
-
     String android_id = null;
 
     /**
@@ -63,7 +59,6 @@ public class Main extends Activity implements LocationListener {
 
         //id
         android_id = Secure.getString(getContentResolver(), Secure.ANDROID_ID);
-        
         //user
         // Initialization
         et_Username = (EditText) findViewById(R.id.et_Username);
@@ -113,7 +108,6 @@ public class Main extends Activity implements LocationListener {
     public void onProviderEnabled(String provider) {
         Toast.makeText(this, "Enabled new provider " + provider,
                 Toast.LENGTH_SHORT).show();
-
     }
 
     @Override
