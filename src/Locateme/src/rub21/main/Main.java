@@ -6,9 +6,11 @@ import android.location.Criteria;
 import android.location.Location;
 import android.location.LocationListener;
 import android.location.LocationManager;
-import android.view.View.OnClickListener;
 import android.os.Bundle;
+import android.provider.Settings.Secure;
+import android.telephony.TelephonyManager;
 import android.view.View;
+import android.view.View.OnClickListener;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
@@ -33,6 +35,9 @@ public class Main extends Activity implements LocationListener {
 
     Server server = new Server();
 
+
+    String android_id = null;
+
     /**
      * Called when the activity is first created.
      */
@@ -56,6 +61,9 @@ public class Main extends Activity implements LocationListener {
             longitudeField.setText("Location not available");
         }
 
+        //id
+        android_id = Secure.getString(getContentResolver(), Secure.ANDROID_ID);
+        
         //user
         // Initialization
         et_Username = (EditText) findViewById(R.id.et_Username);
@@ -68,7 +76,6 @@ public class Main extends Activity implements LocationListener {
                 // Stores User name
                 username = String.valueOf(et_Username.getText());
                 tv_Message.setText("Login Unsuccessful  " + username + "!!!");
-
             }
         });
 
@@ -94,26 +101,23 @@ public class Main extends Activity implements LocationListener {
         double lng = (double) (location.getLongitude());
         latituteField.setText(String.valueOf(lat));
         longitudeField.setText(String.valueOf(lng));
-        server.postData(lat, lng, username);
+        server.postData(lat, lng, username, android_id);
     }
 
     @Override
-    public void onStatusChanged(String provider, int status, Bundle extras
-    ) {
+    public void onStatusChanged(String provider, int status, Bundle extras) {
         // TODO Auto-generated method stub
     }
 
     @Override
-    public void onProviderEnabled(String provider
-    ) {
+    public void onProviderEnabled(String provider) {
         Toast.makeText(this, "Enabled new provider " + provider,
                 Toast.LENGTH_SHORT).show();
 
     }
 
     @Override
-    public void onProviderDisabled(String provider
-    ) {
+    public void onProviderDisabled(String provider) {
         Toast.makeText(this, "Disabled provider " + provider,
                 Toast.LENGTH_SHORT).show();
     }

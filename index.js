@@ -19,7 +19,7 @@ app.post('/', function(req, res) {
 	var data = req.body;
 	data.lat = parseFloat(data.lat);
 	data.lon = parseFloat(data.lon);
-	data.id=uuid.v1();
+	//data.id=uuid.v1();
 
 	socket.emit('location', {
 		done: 'Done',
