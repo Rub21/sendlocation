@@ -14,6 +14,8 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
+import java.util.LinkedList;
+import java.util.List;
 import rub21.main.io.Server;
 
 public class Main extends Activity implements LocationListener {
@@ -32,7 +34,11 @@ public class Main extends Activity implements LocationListener {
     // Message
     private TextView tv_Message;
     Server server = new Server();
-    String android_id = "null";
+    String android_id = null;
+
+    //flag
+    private boolean isenable = false;
+    List<Double> coordinates = new LinkedList<Double>();
 
     /**
      * Called when the activity is first created.
@@ -71,6 +77,10 @@ public class Main extends Activity implements LocationListener {
                 // Stores User name
                 username = String.valueOf(et_Username.getText());
                 tv_Message.setText("Login Unsuccessful  " + username + "!!!");
+                if (!username.equals("User")) {
+                    isenable = true;
+                    server.postData(coordinates, username, android_id);
+                }
             }
         });
 
@@ -92,11 +102,17 @@ public class Main extends Activity implements LocationListener {
 
     @Override
     public void onLocationChanged(Location location) {
+        coordinates.clear();
         double lat = (double) (location.getLatitude());
         double lng = (double) (location.getLongitude());
+        coordinates.add(lat);
+        coordinates.add(lng);
         latituteField.setText(String.valueOf(lat));
         longitudeField.setText(String.valueOf(lng));
-        server.postData(lat, lng, username, android_id);
+        if (isenable) {
+            server.postData(coordinates, username, android_id);
+        }
+
     }
 
     @Override

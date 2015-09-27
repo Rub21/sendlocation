@@ -18,43 +18,14 @@ new L.Control.Zoom({
 	position: 'topright'
 }).addTo(map);
 var myLayer = L.mapbox.featureLayer().addTo(map);
-
 socket.on("location", onReceiveData);
-
-
 var users = [];
-
 function onReceiveData(obj) {
-
-
-	var user1 = turf.point([obj.data.lon, obj.data.lat]);
-	user1.properties.icon = st.icon;
-	user1.properties.title = obj.data.username;
-	user1.properties.id = obj.data.id;
-	console.log(user1);
-
-
-
-	var user = {
-		"type": "Feature",
-		"geometry": {
-			"type": "Point",
-			"coordinates": [obj.data.lon, obj.data.lat]
-		},
-		"properties": {
-			"id": obj.data.id,
-			"title": obj.data.username,
-			"icon": {
-				"iconUrl": "https://dl.dropboxusercontent.com/u/43116811/astronaut15.png",
-				"iconSize": [30, 30],
-				"iconAnchor": [15, 15],
-				"popupAnchor": [0, -15],
-				"className": "dot"
-			}
-
-		}
-	};
-
+	var user = turf.point([obj.data.lon, obj.data.lat]);
+	user.properties.icon = st.icon;
+	user.properties.title = obj.data.username;
+	user.properties.id = obj.data.id;
+	console.log(user);
 	var flag = true;
 	_.map(users, function(val) {
 		if (val.properties.id === user.properties.id) {

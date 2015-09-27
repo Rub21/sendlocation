@@ -20,14 +20,14 @@ import org.apache.http.util.EntityUtils;
  */
 public class Server {
 
-    public void postData(double lat, double lon, String username, String android_id) {
+    public void postData(List coodinates, String username, String android_id) {
         try {
             HttpClient client = new DefaultHttpClient();
             String postURL = Config.server;
             HttpPost post = new HttpPost(postURL);
             List<NameValuePair> params = new ArrayList<NameValuePair>();
-            params.add(new BasicNameValuePair("lat", String.valueOf(lat)));
-            params.add(new BasicNameValuePair("lon", String.valueOf(lon)));
+            params.add(new BasicNameValuePair("lat", String.valueOf(coodinates.get(0))));
+            params.add(new BasicNameValuePair("lon", String.valueOf(coodinates.get(1))));
             params.add(new BasicNameValuePair("username", username));
              params.add(new BasicNameValuePair("id", android_id));
             UrlEncodedFormEntity ent = new UrlEncodedFormEntity(params, HTTP.UTF_8);

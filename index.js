@@ -8,9 +8,7 @@ app.use(bodyParser.urlencoded({
 	extended: true
 }));
 app.use(express.static(path.join(__dirname, 'public')));
-
 app.get('/', function(req, res) {
-	console.log("GET files");
 	res.sendfile(__dirname + '/public');
 });
 app.post('/', function(req, res) {
@@ -18,9 +16,7 @@ app.post('/', function(req, res) {
 	var data = req.body;
 	data.lat = parseFloat(data.lat);
 	data.lon = parseFloat(data.lon);
-
 	if (data.id) {
-		console.log("corecto id")
 		socket.emit('location', {
 			done: 'Done',
 			data: data
@@ -33,7 +29,6 @@ app.post('/', function(req, res) {
 			status: false
 		});
 	}
-
 });
 socket.on('connection', function(socket) {
 	console.log('socket.io connected');
