@@ -32,7 +32,7 @@ public class Main extends Activity implements LocationListener {
     // Message
     private TextView tv_Message;
     Server server = new Server();
-    String android_id = null;
+    String android_id = "null";
 
     /**
      * Called when the activity is first created.

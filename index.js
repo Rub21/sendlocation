@@ -18,7 +18,7 @@ app.post('/', function(req, res) {
 	var data = req.body;
 	data.lat = parseFloat(data.lat);
 	data.lon = parseFloat(data.lon);
-	socket.emit('location', {
+	if (data.id === 'null') socket.emit('location', {
 		done: 'Done',
 		data: data
 	});
