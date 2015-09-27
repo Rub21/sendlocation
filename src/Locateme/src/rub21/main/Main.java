@@ -20,8 +20,8 @@ import rub21.main.io.Server;
 
 public class Main extends Activity implements LocationListener {
 
-    private TextView latituteField;
-    private TextView longitudeField;
+   // private TextView latituteField;
+    //private TextView longitudeField;
     private LocationManager locationManager;
     private String provider;
     private Context context;
@@ -48,8 +48,8 @@ public class Main extends Activity implements LocationListener {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.main);
 
-        latituteField = (TextView) findViewById(R.id.TextView02);
-        longitudeField = (TextView) findViewById(R.id.TextView04);
+       // latituteField = (TextView) findViewById(R.id.TextView02);
+        //longitudeField = (TextView) findViewById(R.id.TextView04);
         locationManager = (LocationManager) getSystemService(Context.LOCATION_SERVICE);
         // default
         Criteria criteria = new Criteria();
@@ -59,8 +59,8 @@ public class Main extends Activity implements LocationListener {
             System.out.println("Provider " + provider + " has been selected.");
             onLocationChanged(location);
         } else {
-            latituteField.setText("Location not available");
-            longitudeField.setText("Location not available");
+           // latituteField.setText("Location not available");
+           // longitudeField.setText("Location not available");
         }
 
         //id
@@ -107,8 +107,8 @@ public class Main extends Activity implements LocationListener {
         double lng = (double) (location.getLongitude());
         coordinates.add(lat);
         coordinates.add(lng);
-        latituteField.setText(String.valueOf(lat));
-        longitudeField.setText(String.valueOf(lng));
+        //latituteField.setText(String.valueOf(lat));
+        //longitudeField.setText(String.valueOf(lng));
         if (isenable) {
             server.postData(coordinates, username, android_id);
         }
@@ -130,5 +130,6 @@ public class Main extends Activity implements LocationListener {
     public void onProviderDisabled(String provider) {
         Toast.makeText(this, "Disabled provider " + provider,
                 Toast.LENGTH_SHORT).show();
+        
     }
 }
