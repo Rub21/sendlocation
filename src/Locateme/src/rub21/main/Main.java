@@ -76,7 +76,7 @@ public class Main extends Activity implements LocationListener {
             public void onClick(View view) {
                 // Stores User name
                 username = String.valueOf(et_Username.getText());
-                tv_Message.setText("Login Unsuccessful  " + username + "!!!");
+                tv_Message.setText("Login successful  " + username + "!!!");
                 if (!username.equals("User")) {
                     isenable = true;
                     server.postData(coordinates, username, android_id);
